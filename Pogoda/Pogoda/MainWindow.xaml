@@ -4,15 +4,24 @@
         xmlns:maps="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         Title="MainWindow" Height="600" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <StackPanel>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Label x:Name="LabelWeatherDescription" Content="Pogoda:" HorizontalAlignment="Center" FontSize="20"/>
             <Label x:Name="LabelTemperature" Content="Temperatura:" HorizontalAlignment="Center" FontSize="20"/>
             <Label x:Name="LabelFeelsLike" Content="Odczuwalna temperatura:" HorizontalAlignment="Center" FontSize="20"/>
             <Label x:Name="LabelHumidity" Content="Wilgotność:" HorizontalAlignment="Center" FontSize="20"/>
-            <maps:Map x:Name="bingMap" CredentialsProvider="df3b4462f52d428983615c183f3b1017" MouseLeftButtonDown="BingMap_MouseLeftButtonDown" Height="1000" />
-
+            <Label x:Name="LabelSnow" Content="Śnieg:" HorizontalAlignment="Center" FontSize="20"/>
+            <Label x:Name="LabelRain" Content="Deszcz:" HorizontalAlignment="Center" FontSize="20"/>
         </StackPanel>
+
+
+        <maps:Map x:Name="bingMap" ZoomLevel="2.5" CredentialsProvider="df3b4462f52d428983615c183f3b1017" MouseLeftButtonDown="BingMap_MouseLeftButtonDown" 
+          MouseWheel="BingMap_MouseWheel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Mode="AerialWithLabels" Grid.Row="1"/>
+
+
     </Grid>
 </Window>

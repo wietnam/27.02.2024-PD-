@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace Pogoda
 {
-    
-
     public class WeatherData
     {
         [JsonProperty("weather")]
@@ -43,7 +41,19 @@ namespace Pogoda
 
         [JsonProperty("cod")]
         public int Cod { get; set; }
+
+        public Snow Snow { get; set; }
+        public Rain Rain { get; set; }
     }
+    public class Snow
+    {
+        public double _3h { get; set; }
+    }
+    public class Rain
+    {
+        public double _1h { get; set; }
+    }
+
 
     public class Weather
     {
@@ -117,5 +127,5 @@ namespace Pogoda
         [JsonProperty("sunset")]
         public long Sunset { get; set; }
     }
-
+    
 }
