@@ -9,6 +9,7 @@ using System.Windows.Input;
 
 namespace Pogoda
 {
+
     public partial class MainWindow : Window
     {
         private const string ApiKey = "8e574bad8dd20c31183f9537ef07c041";
@@ -29,10 +30,11 @@ namespace Pogoda
             LabelTemperature.Content = $"Temperatura: {weatherData.Main.Temp}°C";
             LabelFeelsLike.Content = $"Odczuwalna temperatura: {weatherData.Main.FeelsLike}°C";
             LabelHumidity.Content = $"Wilgotność: {weatherData.Main.Humidity}%";
-            LabelSnow.Content = weatherData.Snow != null && weatherData.Snow._3h > 0 ? "Tak" : "Nie";
-            LabelRain.Content = weatherData.Rain != null && weatherData.Rain._1h > 0 ? "Tak" : "Nie";
-
+            LabelSnow.Content = weatherData.Snow != null && weatherData.Snow._3h > 0 ? "Czy pada śnieg: Tak" : "Czy pada śnieg: Nie";
+            LabelRain.Content = weatherData.Rain != null && weatherData.Rain._1h > 0 ? "Czy pada deszcz: Tak" : "Czy pada deszcz: Nie";
+            LabelCity.Content = $"Miasto: {weatherData.Name}"; // Update the city name label
         }
+
 
         private void BingMap_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -54,8 +56,18 @@ namespace Pogoda
         {
             using (var httpClient = new HttpClient())
             {
-                var response = await httpClient.GetStringAsync($"{ApiUrl}?lat={latitude}&lon={longitude}&appid={ApiKey}&units=metric");
-                return JsonConvert.DeserializeObject<WeatherData>(response);
+                try
+                {
+                    var response = await httpClient.GetAsync($"{ApiUrl}?lat={latitude}&lon={longitude}&appid={ApiKey}&units=metric");
+                    response.EnsureSuccessStatusCode();
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<WeatherData>(responseString);
+                }
+                catch (HttpRequestException ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                    return null;
+                }
             }
         }
 
